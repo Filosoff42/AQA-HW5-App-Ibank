@@ -1,0 +1,1 @@
+# App-Ibank [![Build status](https://ci.appveyor.com/api/projects/status/tcbrk0l9gvu21dqv?svg=true)](https://ci.appveyor.com/project/Filosoff42/aqa-hw5-app-ibank)
