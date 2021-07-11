@@ -1,45 +1,21 @@
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.filter.log.LogDetail;
-import io.restassured.http.ContentType;
-import io.restassured.specification.RequestSpecification;
+import data.DataGenerator;
+import data.Registration;
+import data.SetUpGenerator;
 import org.junit.jupiter.api.*;
 
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
-import static io.restassured.RestAssured.given;
 
 public class AppIbankTest {
-
-    private static RequestSpecification requestSpec = new RequestSpecBuilder()
-            .setBaseUri("http://localhost")
-            .setPort(9999)
-            .setAccept(ContentType.JSON)
-            .setContentType(ContentType.JSON)
-            .log(LogDetail.ALL)
-            .build();
 
     private static Registration userActive = DataGenerator.generateUserActive();
     private static Registration userBlocked = DataGenerator.generateUserBlocked();
 
     @BeforeAll
-    static void setUpAll() {
-        // сам запрос
-        given() // "дано"
-                .spec(requestSpec) // указываем, какую спецификацию используем
-                .body(userActive)// передаём в теле объект, который будет преобразован в JSON
-                .when() // "когда"
-                .post("/api/system/users") // на какой путь, относительно BaseUri отправляем запрос
-                .then() // "тогда ожидаем"
-                .statusCode(200); // код 200 OK
-        given() // "дано"
-                .spec(requestSpec) // указываем, какую спецификацию используем
-                .body(userBlocked)// передаём в теле объект, который будет преобразован в JSON
-                .when() // "когда"
-                .post("/api/system/users") // на какой путь, относительно BaseUri отправляем запрос
-                .then() // "тогда ожидаем"
-                .statusCode(200); // код 200 OK
+    static void setUpAll(){
+       SetUpGenerator.generateSetUp(userActive, userBlocked);
     }
 
     @BeforeEach
